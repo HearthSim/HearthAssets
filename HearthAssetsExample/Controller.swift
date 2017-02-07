@@ -24,6 +24,15 @@ class Controller: NSViewController {
 
     override func viewWillAppear() {
         super.viewWillAppear()
+
+        for name in ["1553", "Benguiat_Rus_Bold", "NanumGothic"] {
+            let fontURL = Bundle.main.url(forResource: name, withExtension: "ttf")
+            CTFontManagerRegisterFontsForURL(fontURL! as CFURL, CTFontManagerScope.process, nil)
+        }
+
+        let fontURL = Bundle.main.url(forResource: "Chunkfive", withExtension: "otf")
+        CTFontManagerRegisterFontsForURL(fontURL! as CFURL, CTFontManagerScope.process, nil)
+
         load()
     }
 
@@ -42,12 +51,12 @@ class Controller: NSViewController {
     private func load() {
         cardChooser.menu?.removeAllItems()
 
-        guard let jsonFile = Bundle.main.path(forResource: "cardsDB.\(locale)", ofType: "json") else {
+        guard let jsonFile = Bundle.main.url(forResource: "cardsDB.\(locale)", withExtension: "json") else {
             print("! cards.\(locale).json")
             cardChooser.isEnabled = false
             return
         }
-        guard let jsonData = try? Data(contentsOf: URL(fileURLWithPath: jsonFile)) else {
+        guard let jsonData = try? Data(contentsOf: jsonFile) else {
             print("\(jsonFile) is not a valid file")
             cardChooser.isEnabled = false
             return
@@ -103,12 +112,12 @@ class Controller: NSViewController {
         print("Change card : \(item.title) (\(item.representedObject))")
 
         guard let cardId = item.representedObject as? String,
-              let card = cards[cardId] else {return}
-
-        //let fontURL = Bundle.main.url(forResource: "1553", withExtension: "ttf")
-        //CTFontManagerRegisterFontsForURL(fontURL! as CFURL, CTFontManagerScope.process, nil)
+              let card = cards[cardId] else {
+            return
+        }
 
         assetGenerator.debug = debug.state == NSOnState
+        assetGenerator.locale = locale
         assetGenerator.generate(card: card) { [weak self] (image, error) in
             if let error = error {
                 print("\(error)")

@@ -37,11 +37,13 @@ public class HearthAssets {
     private let belweBdBT = "Belwe Bd BT"
 
     public var debug = false
+    public var locale = "enUS"
 
-    public init() {}
+    public init() {
+    }
 
     public func generate(card: [String: Any],
-                  completed: @escaping ((NSImage?, AssetError?) -> Void)) {
+                         completed: @escaping ((NSImage?, AssetError?) -> Void)) {
 
         guard let type = card["type"] as? String else {
             completed(nil, AssetError.invalidCardType)
@@ -104,7 +106,7 @@ public class HearthAssets {
             }
         }
 
-        if ["BRM", "GVG", "LOE", "NAX", "TGT", "OG"].contains(set) {
+        if ["BRM", "GVG", "LOE", "NAX", "TGT", "OG", "GANGS"].contains(set) {
             self.bgLogo = "bg-\(set.lowercased())"
         } else {
             self.bgLogo = "bg-cl"
@@ -387,8 +389,8 @@ public class HearthAssets {
                     drawStyle: card["durabilityStyle"])
         }
 
-        if type != "MINION" {
-            drawBodyText(s: s, card: card)
+        if let text = card["text"] as? String, !text.isEmpty {
+            try drawBodyText(s: s, type: type, text: text)
         }
 
         image.unlockFocus()
@@ -396,8 +398,79 @@ public class HearthAssets {
         return image
     }
 
-    private func drawBodyText(s: CGFloat, card: [String: Any]) {
+    private func drawBodyText(s: CGFloat, type: String, text: String) throws {
 
+        let pluralRegex = "(\\d+) \\|4\\((\\w+),(\\w+)\\)"
+        let bodyText = text.replace(pluralRegex) { (string, matches) in
+            guard matches.count > 4 else {
+                return string
+            }
+
+            let single = matches[1].value
+            let plural = matches[2].value
+            let count = Int(matches[0].value) ?? 0
+
+            let replace = "\(count) \(count <= 1 ? single : plural)"
+            return string.replace(pluralRegex, with: replace)
+        }.replace("\\$", with: "")
+                .replace("#", with: "")
+                .replace("\\n", with: "\n")
+                .replace("\\[x\\]", with: "")
+
+        print("Rendering body \(bodyText)")
+
+        var bufferText = NSRect(x: 123 * s, y: 80, width: 520 * s, height: 290 * s)
+
+        if type == "SPELL" {
+            bufferText.origin.x = 135 * s
+            bufferText.size.width = 480 * s
+            bufferText.size.height = 290 * s
+        } else if type == "WEAPON" {
+            bufferText.size.width = 470 * s
+            bufferText.size.height = 250 * s
+        }
+
+        var fontSize: CGFloat = 52
+        let totalLength = bodyText.replace("<\\/*.>", with: "").characters.count
+        if totalLength >= 80 {
+            fontSize *= 0.9
+        } else if (totalLength >= 100) {
+            fontSize *= 0.8
+        }
+
+        let fontName: String
+        if ["jaJP", "thTH", "koKR", "zhCN", "zhTW"].contains(locale) {
+            fontName = "NanumGothic"
+        } else if "ruRU" == locale {
+            fontName = "BenguiatBold"
+        } else {
+            fontName = "ITC Franklin Condensed"
+        }
+        let styles = [
+                "text-align": "center",
+                "color": type == "WEAPON" ? "#ffffff" : "#000000",
+                "font-size": "\(fontSize)px",
+                "font-family": fontName,
+                "background-color": debug ? "rgba(255, 0, 0, 0.5)" : "transparent"
+        ]
+                .map {
+                    "\($0): \($1)"
+                }
+                .joined(separator: ";")
+
+        let htmlText = "<p style='\(styles)'>\(bodyText)</p>"
+        print("\(htmlText)")
+        guard let html = htmlText.data(using: .utf8) else {
+            return
+        }
+        let text = try NSAttributedString(data: html,
+                options: [
+                        NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                        NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue
+                ],
+                documentAttributes: nil)
+
+        text.draw(in: bufferText)
     }
 
     private func renderRaceText(s: CGFloat, card: [String: Any]) throws {
@@ -444,7 +517,6 @@ public class HearthAssets {
             math._P1 = NSPoint(x: 212, y: 135)
             math._P2 = NSPoint(x: 368, y: 135)
             math._P3 = NSPoint(x: 570, y: 85)
-
         } else if type == "WEAPON" {
             math._P0 = NSPoint(x: 10, y: 110)
             math._P1 = NSPoint(x: 50, y: 110)
@@ -463,13 +535,18 @@ public class HearthAssets {
         }
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
-        let text = NSAttributedString(string: name, attributes: [
+
+        var attrs: [String: Any] = [
                 NSFontAttributeName: font,
                 NSForegroundColorAttributeName: NSColor.white,
                 NSStrokeWidthAttributeName: -4.0,
                 NSStrokeColorAttributeName: NSColor.black,
                 NSParagraphStyleAttributeName: paragraph
-        ])
+        ]
+        if debug {
+            attrs[NSBackgroundColorAttributeName] = NSColor.red.withAlphaComponent(0.5)
+        }
+        let text = NSAttributedString(string: name, attributes: attrs)
 
         let textWidth = text.size().width
 
@@ -480,7 +557,9 @@ public class HearthAssets {
         layoutManager.addTextContainer(textContainer)
         textStorage.addLayoutManager(layoutManager)
 
+        textStorage.beginEditing()
         textStorage.setAttributedString(text)
+        textStorage.endEditing()
 
         context.translateBy(x: rect.minX, y: rect.minY)
 
@@ -560,13 +639,8 @@ public class HearthAssets {
         loadAssets.forEach { (asset) in
             var key = asset
             var isUrl = false
-            var isTexture = false
 
-            if key.sub(start: 0, end: 2) == "h:" {
-                isTexture = true
-                key = key.sub(start: 2, end: key.characters.count)
-            } else if key.sub(start: 0, end: 2) == "t:" {
-                isTexture = true
+            if ["h:", "t:"].contains(key.sub(start: 0, end: 2)) {
                 key = key.sub(start: 2, end: key.characters.count)
             } else if key.sub(start: 0, end: 2) == "u:" {
                 isUrl = true
@@ -574,13 +648,7 @@ public class HearthAssets {
                 print("\(artUrl)\(key).jpg")
             }
 
-            /*if isTexture {
-                if let image = NSImage(contentsOfFile: "\(assetPath)\(key).png") {
-                    assets[key] = image
-                } else {
-                    print("can't load asset : \(assetPath)\(key).png")
-                }
-            } else */if let url = URL(string: "\(artUrl)\(key).jpg"), isUrl {
+            if let url = URL(string: "\(artUrl)\(key).jpg"), isUrl {
                 if let image = NSImage(contentsOf: url) {
                     assets[key] = image
                 } else {
@@ -611,5 +679,96 @@ private extension String {
         }
         let range = self.characters.index(self.startIndex, offsetBy: start) ..< self.characters.index(self.startIndex, offsetBy: end)
         return self.substring(with: range)
+    }
+
+    func sub(from: Int) -> String {
+        if from < 0 || from > self.characters.count {
+            print("start index \(from) out of bounds")
+            return ""
+        }
+        return self.substring(from: self.characters.index(self.startIndex, offsetBy: from))
+    }
+}
+
+// todo code from HSTracker, move to a separate lib
+
+private struct Match {
+    var range: Range<String.Index>
+    var value: String
+}
+
+private struct Regex {
+    let expression: String
+
+    init(expression: String) {
+        self.expression = expression
+    }
+
+    func match(_ someString: String) -> Bool {
+        do {
+            let regularExpression = try NSRegularExpression(pattern: expression, options: [])
+            let range = NSRange(location: 0, length: someString.characters.count)
+            let matches = regularExpression.numberOfMatches(in: someString,
+                    options: [],
+                    range: range)
+            return matches > 0
+        } catch {
+            return false
+        }
+    }
+
+    func matches(_ someString: String) -> [Match] {
+        var matches = [Match]()
+        do {
+            let regularExpression = try NSRegularExpression(pattern: expression, options: [])
+            let range = NSRange(location: 0, length: someString.characters.count)
+            let results = regularExpression.matches(in: someString,
+                    options: [],
+                    range: range)
+            for result in results {
+                for index in 1 ..< result.numberOfRanges {
+                    let resultRange = result.rangeAt(index)
+                    let startPos = someString.characters
+                            .index(someString.startIndex, offsetBy: resultRange.location)
+                    let end = resultRange.location + resultRange.length
+                    let endPos = someString.characters.index(someString.startIndex, offsetBy: end)
+                    let range = startPos ..< endPos
+
+                    let value = someString.substring(with: range)
+                    let match = Match(range: range, value: value)
+                    matches.append(match)
+                }
+            }
+        } catch {
+        }
+        return matches
+    }
+}
+
+private extension String {
+    func match(_ pattern: String) -> Bool {
+        return Regex(expression: pattern).match(self)
+    }
+
+    func matches(_ pattern: String) -> [Match] {
+        return Regex(expression: pattern).matches(self)
+    }
+
+    func replace(_ pattern: String, with: String) -> String {
+        do {
+            let regularExpression = try NSRegularExpression(pattern: pattern, options: [])
+            let range = NSRange(location: 0, length: self.characters.count)
+            return regularExpression.stringByReplacingMatches(in: self,
+                    options: [],
+                    range: range,
+                    withTemplate: with)
+        } catch {
+        }
+        return self
+    }
+
+    func replace(_ pattern: String, using: (String, [Match]) -> String) -> String {
+        let matches = self.matches(pattern)
+        return using(self, matches)
     }
 }

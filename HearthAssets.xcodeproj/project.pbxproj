@@ -75,12 +75,14 @@
 		64C1183179E6F8CF754E13E6 /* wPreload.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 64C11E042BC828B59E19E586 /* wPreload.jpg */; };
 		64C1183BA2A42998D15A82CC /* sMage.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C119B555935B53ECAFCA68 /* sMage.png */; };
 		64C1189D2A447F6188C3AF1F /* w-bg-gvg.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C11A81E2410E3B25BD8C94 /* w-bg-gvg.png */; };
+		64C118ADDB5422DA3355CC46 /* Chunkfive.otf in Resources */ = {isa = PBXBuildFile; fileRef = 64C11D269FAA7228AC97EBFC /* Chunkfive.otf */; };
 		64C118AEF8A40E2A6330775D /* silence-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C117643390AFA529B61A80 /* silence-x.png */; };
 		64C118BE985016FBD021F307 /* bg-tgt.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C1141D7AE7CFF1B0BBB335 /* bg-tgt.png */; };
 		64C118D47FF2338DB9F13150 /* sPreload.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 64C1126823C5DF5C0A577B41 /* sPreload.jpg */; };
 		64C118EB466973B29F0FA985 /* wWarlock.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C1136E4BBEBFD0D28EB5EA /* wWarlock.png */; };
 		64C11916035CCDDB04B56204 /* spell-rarity-legendary.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C11760913E39216A5D5CA7 /* spell-rarity-legendary.png */; };
 		64C1196D0D53C404D11CF146 /* mPriest.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C115CA0A201FBC8B6BE468 /* mPriest.png */; };
+		64C119CD7EF414FA5501EFE4 /* NanumGothic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64C1141F8BC99DCAB6A1A88F /* NanumGothic.ttf */; };
 		64C11A33D7B94386E1A98F70 /* wNeutral.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C115E26E0D2F3435DDCFF9 /* wNeutral.png */; };
 		64C11A52E81CAF52CF704E00 /* sWarlock.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C114EC4C738EC393212717 /* sWarlock.png */; };
 		64C11A629138272A4D00DC4D /* spell-rarity-rare.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C116BE186A5CFBD2CB5334 /* spell-rarity-rare.png */; };
@@ -102,10 +104,12 @@
 		64C11DBDCE6F956EA47FDC69 /* spell-bg-kara.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C11A0DFA7E34D90BCD4557 /* spell-bg-kara.png */; };
 		64C11DF88B3575663F94ACEE /* wWarrior.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C11C8384CA8277C6C78733 /* wWarrior.png */; };
 		64C11E02144B036CC3995B70 /* spell-rarity-common.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C113817EFE7425470C5932 /* spell-rarity-common.png */; };
+		64C11E0F9B83E5B2D2DEF5A3 /* Benguiat_Rus_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64C1134936D643CABF3E4692 /* Benguiat_Rus_Bold.ttf */; };
 		64C11E2B6D9E6C7100883FDD /* bg-kara.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C115508777FC377396BB70 /* bg-kara.png */; };
 		64C11E3B1CC306B068230E71 /* sWarrior.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C1125F4341319CA0867D5B /* sWarrior.png */; };
 		64C11E418AF0A3FE8E11BDF9 /* weapon-rarity-legendary.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C11937D9644AF2AD427116 /* weapon-rarity-legendary.png */; };
 		64C11EF1D7A5D029EB95A133 /* w-bg-og.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C113DFFAA863E9805EA173 /* w-bg-og.png */; };
+		64C11F068ED3A3D1AC445F00 /* w-bg-gangs.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C11E703E46FA68F5FE41DA /* w-bg-gangs.png */; };
 		64C11F4959CF6A24FD84C6D0 /* mPaladin.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C11F9F6F51029FD38AA194 /* mPaladin.png */; };
 		64C11F65DA984B0DA965A8E1 /* mRogue.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C11E5A927A3FE2EBF722A5 /* mRogue.png */; };
 		64C11FC62025F23891EAB46D /* bg-og.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C11626C8F5EC0AFF85ADAA /* bg-og.png */; };
@@ -168,6 +172,7 @@
 		64C112862DB64E1D322D69C5 /* spell-bg-naxx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spell-bg-naxx.png"; sourceTree = "<group>"; };
 		64C112AF0345DD9C929AEAE5 /* wMage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wMage.png; sourceTree = "<group>"; };
 		64C112D9E5B07E55E88878FC /* bg-gvg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-gvg.png"; sourceTree = "<group>"; };
+		64C1134936D643CABF3E4692 /* Benguiat_Rus_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = Benguiat_Rus_Bold.ttf; sourceTree = "<group>"; };
 		64C1136E4BBEBFD0D28EB5EA /* wWarlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wWarlock.png; sourceTree = "<group>"; };
 		64C113759A476C26A71E3926 /* spell-bg-gvg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spell-bg-gvg.png"; sourceTree = "<group>"; };
 		64C1137954AE8619039F0C48 /* spell-bg-loe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spell-bg-loe.png"; sourceTree = "<group>"; };
@@ -179,6 +184,7 @@
 		64C11417B78C8E6D219B01D0 /* health.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = health.png; sourceTree = "<group>"; };
 		64C1141D7AE7CFF1B0BBB335 /* bg-tgt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-tgt.png"; sourceTree = "<group>"; };
 		64C1141E7B949AA6D1651BDA /* wRogue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wRogue.png; sourceTree = "<group>"; };
+		64C1141F8BC99DCAB6A1A88F /* NanumGothic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = NanumGothic.ttf; sourceTree = "<group>"; };
 		64C11436617D31969436D3C6 /* race.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = race.png; sourceTree = "<group>"; };
 		64C1149874165E3387703D27 /* mWarlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mWarlock.png; sourceTree = "<group>"; };
 		64C114EC4C738EC393212717 /* sWarlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sWarlock.png; sourceTree = "<group>"; };
@@ -219,6 +225,7 @@
 		64C11C8384CA8277C6C78733 /* wWarrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wWarrior.png; sourceTree = "<group>"; };
 		64C11CFC9167382048FA5E22 /* shield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield.png; sourceTree = "<group>"; };
 		64C11D1F49E4F46EC6A7B331 /* wDruid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wDruid.png; sourceTree = "<group>"; };
+		64C11D269FAA7228AC97EBFC /* Chunkfive.otf */ = {isa = PBXFileReference; lastKnownFileType = file.otf; path = Chunkfive.otf; sourceTree = "<group>"; };
 		64C11D447AFFA449C1702B78 /* swords.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swords.png; sourceTree = "<group>"; };
 		64C11D5148BD366C0F7A3CF1 /* title-weapon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "title-weapon.png"; sourceTree = "<group>"; };
 		64C11D8371A0FB9F28B0BFFE /* mShaman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mShaman.png; sourceTree = "<group>"; };
@@ -228,6 +235,7 @@
 		64C11E042BC828B59E19E586 /* wPreload.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wPreload.jpg; sourceTree = "<group>"; };
 		64C11E5572A0AB0BC70B6887 /* bg-naxx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-naxx.png"; sourceTree = "<group>"; };
 		64C11E5A927A3FE2EBF722A5 /* mRogue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mRogue.png; sourceTree = "<group>"; };
+		64C11E703E46FA68F5FE41DA /* w-bg-gangs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "w-bg-gangs.png"; sourceTree = "<group>"; };
 		64C11EA161536F530E7AAC5C /* title-spell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "title-spell.png"; sourceTree = "<group>"; };
 		64C11EC7DEB2642505652F94 /* mMage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mMage.png; sourceTree = "<group>"; };
 		64C11F45F9CD4A8DBDB3D1AC /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
@@ -361,6 +369,10 @@
 				64C119D70BEE91E8E4ED8B7E /* weapon-rarity-rare.png */,
 				64C112862DB64E1D322D69C5 /* spell-bg-naxx.png */,
 				64C1177DAC0A5C235CCFC635 /* w-bg-naxx.png */,
+				64C11E703E46FA68F5FE41DA /* w-bg-gangs.png */,
+				64C11D269FAA7228AC97EBFC /* Chunkfive.otf */,
+				64C1141F8BC99DCAB6A1A88F /* NanumGothic.ttf */,
+				64C1134936D643CABF3E4692 /* Benguiat_Rus_Bold.ttf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -610,6 +622,10 @@
 				64C1160F3EE5B8E6182E3F68 /* weapon-rarity-rare.png in Resources */,
 				64C11B7991F6BDD6D128EC95 /* spell-bg-naxx.png in Resources */,
 				64C115BA5CE87A262FFFF811 /* w-bg-naxx.png in Resources */,
+				64C11F068ED3A3D1AC445F00 /* w-bg-gangs.png in Resources */,
+				64C118ADDB5422DA3355CC46 /* Chunkfive.otf in Resources */,
+				64C119CD7EF414FA5501EFE4 /* NanumGothic.ttf in Resources */,
+				64C11E0F9B83E5B2D2DEF5A3 /* Benguiat_Rus_Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

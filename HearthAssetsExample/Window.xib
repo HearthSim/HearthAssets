@@ -18,7 +18,7 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="850" height="432"/>
+            <rect key="frame" x="0.0" y="0.0" width="574" height="432"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tgt-sS-yxi">
@@ -74,7 +74,7 @@
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z7H-14-7tL">
-                    <rect key="frame" x="18" y="357" width="37" height="26"/>
+                    <rect key="frame" x="93" y="388" width="37" height="26"/>
                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="Ks2-yX-4dL">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -84,33 +84,33 @@
                         <action selector="changeCard:" target="-2" id="gm1-X2-1Jo"/>
                     </connections>
                 </popUpButton>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vEk-f2-LbL">
-                    <rect key="frame" x="530" y="20" width="300" height="392"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="300" id="fNa-g6-bOR"/>
-                    </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="right" imageScaling="proportionallyDown" id="5zF-vw-Oia"/>
-                </imageView>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="kcr-ao-HtS">
-                    <rect key="frame" x="18" y="336" width="62" height="18"/>
+                    <rect key="frame" x="133" y="393" width="62" height="18"/>
                     <buttonCell key="cell" type="check" title="Debug" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fJj-Bi-RqC">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vEk-f2-LbL">
+                    <rect key="frame" x="20" y="20" width="300" height="363"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="300" id="fNa-g6-bOR"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="right" imageScaling="proportionallyDown" id="5zF-vw-Oia"/>
+                </imageView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="vEk-f2-LbL" secondAttribute="trailing" constant="20" symbolic="YES" id="348-bd-g9q"/>
-                <constraint firstItem="kcr-ao-HtS" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="Dbj-b5-3hL"/>
-                <constraint firstItem="vEk-f2-LbL" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" symbolic="YES" id="ElP-2R-HO7"/>
+                <constraint firstItem="kcr-ao-HtS" firstAttribute="leading" secondItem="z7H-14-7tL" secondAttribute="trailing" constant="8" symbolic="YES" id="4op-by-Cd8"/>
+                <constraint firstAttribute="bottom" secondItem="vEk-f2-LbL" secondAttribute="bottom" constant="20" symbolic="YES" id="8uA-nA-qWN"/>
                 <constraint firstItem="Tgt-sS-yxi" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" symbolic="YES" id="KE7-Hk-Dgv"/>
-                <constraint firstAttribute="bottom" secondItem="vEk-f2-LbL" secondAttribute="bottom" constant="20" symbolic="YES" id="Pcj-70-X7C"/>
+                <constraint firstItem="z7H-14-7tL" firstAttribute="leading" secondItem="Tgt-sS-yxi" secondAttribute="trailing" constant="8" symbolic="YES" id="L3e-Mp-JXq"/>
+                <constraint firstItem="kcr-ao-HtS" firstAttribute="centerY" secondItem="z7H-14-7tL" secondAttribute="centerY" id="QEr-vi-o3p"/>
                 <constraint firstItem="Tgt-sS-yxi" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="ZuT-F4-Yv1"/>
-                <constraint firstItem="kcr-ao-HtS" firstAttribute="top" secondItem="z7H-14-7tL" secondAttribute="bottom" constant="8" symbolic="YES" id="buC-zR-JvU"/>
-                <constraint firstItem="z7H-14-7tL" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="oOs-cL-Y4c"/>
-                <constraint firstItem="z7H-14-7tL" firstAttribute="top" secondItem="Tgt-sS-yxi" secondAttribute="bottom" constant="10" symbolic="YES" id="saf-et-ka4"/>
+                <constraint firstItem="vEk-f2-LbL" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="mZJ-vq-gku"/>
+                <constraint firstItem="vEk-f2-LbL" firstAttribute="top" secondItem="Tgt-sS-yxi" secondAttribute="bottom" constant="8" symbolic="YES" id="pAH-9r-l37"/>
+                <constraint firstItem="z7H-14-7tL" firstAttribute="centerY" secondItem="Tgt-sS-yxi" secondAttribute="centerY" id="ugL-8H-8kT"/>
             </constraints>
-            <point key="canvasLocation" x="325" y="249"/>
+            <point key="canvasLocation" x="187" y="249"/>
         </customView>
     </objects>
 </document>
