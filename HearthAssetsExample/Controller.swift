@@ -20,7 +20,7 @@ class Controller: NSViewController {
     var locale = "enUS"
     var cards: [String: [String: Any]] = [:]
 
-    let assetGenerator = HearthAssets()
+    var assetGenerator: HearthAssets?
 
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -34,6 +34,8 @@ class Controller: NSViewController {
         CTFontManagerRegisterFontsForURL(fontURL! as CFURL, CTFontManagerScope.process, nil)
 
         load()
+
+        assetGenerator = try? HearthAssets(path: "/Applications/Hearthstone")
     }
 
     @IBAction func changeLocale(_ sender: Any) {
@@ -81,7 +83,7 @@ class Controller: NSViewController {
             guard CardSet.allValues().contains(set) else {
                 continue
             }
-            guard let rarity = jsonCard["rarity"] as? String else {
+            guard let _ = jsonCard["rarity"] as? String else {
                 continue
             }
 
@@ -116,9 +118,9 @@ class Controller: NSViewController {
             return
         }
 
-        assetGenerator.debug = debug.state == NSOnState
-        assetGenerator.locale = locale
-        assetGenerator.generate(card: card) { [weak self] (image, error) in
+        assetGenerator?.debug = debug.state == NSOnState
+        assetGenerator?.locale = locale
+        assetGenerator?.generate(card: card) { [weak self] (image, error) in
             if let error = error {
                 print("\(error)")
             } else if let image = image {

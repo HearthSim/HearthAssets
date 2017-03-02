@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UnityPack
 
 public class HearthAssets {
 
@@ -23,6 +24,8 @@ public class HearthAssets {
 
         case invalidGraphicsContext
 
+        case unityPackNotFound
+
         case fontNotFound(name: String)
     }
 
@@ -35,16 +38,24 @@ public class HearthAssets {
     let imageSize = 764.0
 
     private let belweBdBT = "Belwe Bd BT"
+    private var unitypack: UnityPack?
 
     public var debug = false
     public var locale = "enUS"
 
-    public init() {
+    public init(path: String) throws {
+        guard let unitypack = UnityPack(with: path) else {
+            throw AssetError.unityPackNotFound
+        }
+        self.unitypack = unitypack
     }
 
     public func generate(card: [String: Any],
                          completed: @escaping ((NSImage?, AssetError?) -> Void)) {
-
+        guard let id = card["id"] as? String else {
+            completed(nil, AssetError.invalidCardId)
+            return
+        }
         guard let type = card["type"] as? String else {
             completed(nil, AssetError.invalidCardType)
             return
@@ -132,7 +143,7 @@ public class HearthAssets {
         }
 
         print("Assets prepared, now loading")
-        fetchAssets(loadAssets: loadList) { [weak self] in
+        fetchAssets(id: id, loadAssets: loadList) { [weak self] in
             print("Assets loaded for: \(card["name"])")
 
             do {
@@ -635,7 +646,7 @@ public class HearthAssets {
         text.draw(at: NSPoint(x: x, y: y))
     }
 
-    private func fetchAssets(loadAssets: [String], callback: () -> ()) {
+    private func fetchAssets(id: String, loadAssets: [String], callback: () -> ()) {
         loadAssets.forEach { (asset) in
             var key = asset
             var isUrl = false
@@ -645,14 +656,17 @@ public class HearthAssets {
             } else if key.sub(start: 0, end: 2) == "u:" {
                 isUrl = true
                 key = key.sub(start: 2, end: key.characters.count)
-                print("\(artUrl)\(key).jpg")
             }
 
-            if let url = URL(string: "\(artUrl)\(key).jpg"), isUrl {
-                if let image = NSImage(contentsOf: url) {
+            if isUrl {
+                print("Trying to load texture for card id \(id)")
+                if let image = unitypack?.getTexture(cardid: id) {
+                    assets[key] = image
+                } else if let url = URL(string: "\(artUrl)\(key).jpg"),
+                    let image = NSImage(contentsOf: url) {
                     assets[key] = image
                 } else {
-                    print("can't load art : \(artUrl)\(key).png")
+                    print("can't load texture from unitypack : \(id)")
                 }
             } else {
                 if let image = NSImage(named: key) {
