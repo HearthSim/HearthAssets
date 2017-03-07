@@ -73,7 +73,7 @@ public class HearthAssets {
             let mScale = mainTex["m_Scale"] as? [String: Any],
             let scaleX = mScale["x"] as? Float,
             let scaleY = mScale["y"] as? Float else {
-                completed(image, nil)
+                completed(nil, .errorLoadingAsset)
                 return
         }
 
@@ -81,16 +81,10 @@ public class HearthAssets {
         let offsetFloatY = (tile["m_Floats"] as? [String: Any])?["_OffsetY"] as? Float ?? 0.0
         let scaleFloat = (tile["m_Floats"] as? [String: Any])?["_Scale"] as? Float ?? 1.0
 
-        print("ux: \(offsetX), uy: \(offsetY), "
-            + "usx: \(scaleX), usy: \(scaleY), "
-            + "sx: \(offsetFloatX), sy: \(offsetFloatY), "
-            + "ss: \(scaleFloat)")
-
         let rect = getRect(ux: CGFloat(offsetX), uy: CGFloat(offsetY),
                            usx: CGFloat(scaleX), usy: CGFloat(scaleY),
                            sx: CGFloat(offsetFloatX), sy: CGFloat(offsetFloatY),
                            ss: CGFloat(scaleFloat))
-        print("rect: \(rect)")
 
         NSGraphicsContext.current()?.imageInterpolation = .high
 
