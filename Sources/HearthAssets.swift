@@ -23,6 +23,7 @@ public class HearthAssets {
              invalidCardName
 
         case invalidGraphicsContext
+        case errorLoadingAsset
 
         case unityPackNotFound
 
@@ -50,6 +51,112 @@ public class HearthAssets {
         self.unitypack = unitypack
     }
 
+    public func tile(card: [String: Any],
+                     completed: @escaping ((NSImage?, AssetError?) -> Void)) {
+        guard let id = card["id"] as? String else {
+            completed(nil, AssetError.invalidCardId)
+            return
+        }
+
+        guard let (_image, _tile) = unitypack?.getTexture(cardid: id),
+            let image = _image,
+            let tile = _tile else {
+            completed(nil, .errorLoadingAsset)
+            return
+        }
+
+        guard let mTexEnvs = tile["m_TexEnvs"] as? [String: Any?],
+            let mainTex = mTexEnvs["_MainTex"] as? [String: Any?],
+            let mOffset = mainTex["m_Offset"] as? [String: Any?],
+            let offsetX = mOffset["x"] as? Float,
+            let offsetY = mOffset["y"] as? Float,
+            let mScale = mainTex["m_Scale"] as? [String: Any],
+            let scaleX = mScale["x"] as? Float,
+            let scaleY = mScale["y"] as? Float else {
+                completed(image, nil)
+                return
+        }
+
+        let offsetFloatX = (tile["m_Floats"] as? [String: Any])?["_OffsetX"] as? Float ?? 0.0
+        let offsetFloatY = (tile["m_Floats"] as? [String: Any])?["_OffsetY"] as? Float ?? 0.0
+        let scaleFloat = (tile["m_Floats"] as? [String: Any])?["_Scale"] as? Float ?? 1.0
+
+        print("ux: \(offsetX), uy: \(offsetY), "
+            + "usx: \(scaleX), usy: \(scaleY), "
+            + "sx: \(offsetFloatX), sy: \(offsetFloatY), "
+            + "ss: \(scaleFloat)")
+
+        let rect = getRect(ux: CGFloat(offsetX), uy: CGFloat(offsetY),
+                           usx: CGFloat(scaleX), usy: CGFloat(scaleY),
+                           sx: CGFloat(offsetFloatX), sy: CGFloat(offsetFloatY),
+                           ss: CGFloat(scaleFloat))
+        print("rect: \(rect)")
+
+        NSGraphicsContext.current()?.imageInterpolation = .high
+
+        let frame = NSRect(x: 0, y: 0,
+                           width: image.size.width,
+                           height: image.size.height)
+        let size = NSSize(width: frame.width * 2, height: frame.height)
+        let dbleImage = NSImage(size: size)
+        dbleImage.lockFocus()
+        NSColor.white.setFill()
+        image.draw(at: .zero, from: frame, operation: .sourceOver, fraction: 1.0)
+        image.draw(at: NSPoint(x: frame.width, y: 0), from: frame, operation: .sourceOver, fraction: 1.0)
+        dbleImage.unlockFocus()
+
+        let img = NSImage(size: rect.size)
+        img.lockFocus()
+        dbleImage.draw(at: NSPoint.zero,
+                   from: rect,
+                   operation: .copy,
+                   fraction:1.0)
+        img.unlockFocus()
+        completed(img, nil)
+    }
+
+    private let TEX_COORDS: [[CGFloat]] = [[0.0, 0.3856], [1.0, 0.6144]]
+    private func getRect(ux: CGFloat, uy: CGFloat, usx: CGFloat, usy: CGFloat,
+                         sx: CGFloat, sy: CGFloat, ss: CGFloat, tex_dim: CGFloat = 512) -> NSRect {
+        // calc the coords
+        var tl_x = ((TEX_COORDS[0][0] + sx) * ss) * usx + ux
+        let tl_y = ((TEX_COORDS[0][1] + sy) * ss) * usy + uy
+        var br_x = ((TEX_COORDS[1][0] + sx) * ss) * usx + ux
+        let br_y = ((TEX_COORDS[1][1] + sy) * ss) * usy + uy
+
+        // adjust if x coords cross-over
+        let horiz_delta = tl_x - br_x
+        if horiz_delta > 0 {
+            tl_x -= horiz_delta
+            br_x += horiz_delta
+        }
+
+        // get the bar rectangle at tex_dim size
+        var x = round(tl_x * tex_dim)
+        var y = round(tl_y * tex_dim)
+        let width = round(abs((br_x - tl_x) * tex_dim))
+        let height = round(abs((br_y - tl_y) * tex_dim))
+
+        // adjust x and y, so that texture is "visible"
+        x = (x + width).truncatingRemainder(dividingBy: tex_dim) - width
+        y = (y + height).truncatingRemainder(dividingBy: tex_dim) - height
+
+        // ??? to cater for some special cases
+        let min_visible = tex_dim / 4
+        while x + width < min_visible {
+            x += tex_dim
+        }
+        while y + height < 0 {
+            y += tex_dim
+        }
+        // ensure wrap around is used
+        if x < 0 {
+            x += tex_dim
+        }
+
+        return NSRect(x: x, y: y, width: width, height: height)
+    }
+
     public func generate(card: [String: Any],
                          completed: @escaping ((NSImage?, AssetError?) -> Void)) {
         guard let id = card["id"] as? String else {
@@ -72,6 +179,7 @@ public class HearthAssets {
             completed(nil, AssetError.invalidCardSet)
             return
         }
+        assets = [:]
 
         let s = imageSize / 764.0
 
@@ -190,7 +298,7 @@ public class HearthAssets {
                     width: 430 * s,
                     height: 590 * s))
             path.addClip()
-            NSColor.red.setFill()
+            NSColor.white.setFill()
             path.fill()
 
             t.draw(in: NSRect(x: 100 * s, y: 425 * s, width: 590 * s, height: 590 * s),
@@ -204,7 +312,7 @@ public class HearthAssets {
                     width: 529 * s,
                     height: 434 * s))
             path.addClip()
-            NSColor.red.setFill()
+            NSColor.white.setFill()
             path.fill()
 
             t.draw(in: NSRect(x: 125 * s, y: 450 * s, width: 529 * s, height: 529 * s),
@@ -218,7 +326,7 @@ public class HearthAssets {
                     width: 476 * s,
                     height: 468 * s))
             path.addClip()
-            NSColor.red.setFill()
+            NSColor.white.setFill()
             path.fill()
 
             t.draw(in: NSRect(x: 150 * s, y: 495 * s, width: 476 * s, height: 476 * s),
@@ -430,10 +538,11 @@ public class HearthAssets {
 
         print("Rendering body \(bodyText)")
 
-        var bufferText = NSRect(x: 123 * s, y: 80, width: 520 * s, height: 290 * s)
+        var bufferText = NSRect(x: 123 * s, y: 80 * s, width: 520 * s, height: 290 * s)
 
         if type == "SPELL" {
-            bufferText.origin.x = 135 * s
+            bufferText.origin.x = 145 * s
+            bufferText.origin.y = 55 * s
             bufferText.size.width = 480 * s
             bufferText.size.height = 290 * s
         } else if type == "WEAPON" {
@@ -660,14 +769,23 @@ public class HearthAssets {
 
             if isUrl {
                 print("Trying to load texture for card id \(id)")
-                if let image = unitypack?.getTexture(cardid: id) {
-                    assets[key] = image
-                } else if let url = URL(string: "\(artUrl)\(key).jpg"),
-                    let image = NSImage(contentsOf: url) {
-                    assets[key] = image
+                var img: NSImage?
+                if let (image, _) = unitypack?.getTexture(cardid: id) {
+                    img = image
                 } else {
                     print("can't load texture from unitypack : \(id)")
                 }
+
+                if img == nil {
+                    if let url = URL(string: "\(artUrl)\(key).jpg"),
+                        let image = NSImage(contentsOf: url) {
+                        img = image
+                    } else {
+                        print("can't load texture from : \(artUrl)\(key).jpg")
+                    }
+                }
+
+                assets[key] = img
             } else {
                 if let image = NSImage(named: key) {
                     assets[key] = image

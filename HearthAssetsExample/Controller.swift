@@ -11,11 +11,11 @@ import Cocoa
 import HearthAssets
 
 class Controller: NSViewController {
-
     @IBOutlet weak var localeChooser: NSPopUpButton!
     @IBOutlet weak var cardChooser: NSPopUpButton!
     @IBOutlet weak var imageView: NSImageView!
     @IBOutlet weak var debug: NSButton!
+    @IBOutlet weak var tile: NSImageView!
 
     var locale = "enUS"
     var cards: [String: [String: Any]] = [:]
@@ -120,11 +120,19 @@ class Controller: NSViewController {
 
         assetGenerator?.debug = debug.state == NSOnState
         assetGenerator?.locale = locale
+
         assetGenerator?.generate(card: card) { [weak self] (image, error) in
             if let error = error {
                 print("\(error)")
             } else if let image = image {
                 self?.imageView.image = image
+            }
+        }
+        assetGenerator?.tile(card: card) { [weak self] (image, error) in
+            if let error = error {
+                print("\(error)")
+            } else if let image = image {
+                self?.tile.image = image
             }
         }
     }
