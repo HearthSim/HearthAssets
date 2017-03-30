@@ -1,1 +1,2 @@
 github "HearthSim/UnityPack-Swift" "master"
+github "bmichotte/RegexUtil"

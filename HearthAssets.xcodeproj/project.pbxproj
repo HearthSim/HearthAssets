@@ -25,6 +25,7 @@
 		43530AC41E4A0C640047D3A1 /* cardsDB.zhCN.json in Resources */ = {isa = PBXBuildFile; fileRef = 43530AB51E4A0C640047D3A1 /* cardsDB.zhCN.json */; };
 		43530AC51E4A0C640047D3A1 /* cardsDB.zhTW.json in Resources */ = {isa = PBXBuildFile; fileRef = 43530AB61E4A0C640047D3A1 /* cardsDB.zhTW.json */; };
 		43530AC81E4A11490047D3A1 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C11A4DD709F528AE0936E9 /* Card.swift */; };
+		43847D941E8D99D40060C2D2 /* RegexUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D931E8D99D40060C2D2 /* RegexUtil.framework */; };
 		439CD60A1E68B35700BE6C9F /* UnityPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439CD6091E68B35700BE6C9F /* UnityPack.framework */; };
 		439CD60B1E68B3BA00BE6C9F /* UnityPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439CD6091E68B35700BE6C9F /* UnityPack.framework */; };
 		439CD60C1E68B4EC00BE6C9F /* HearthAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43530AC61E4A100C0047D3A1 /* HearthAssets.framework */; };
@@ -169,6 +170,7 @@
 		43530AB61E4A0C640047D3A1 /* cardsDB.zhTW.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cardsDB.zhTW.json; sourceTree = "<group>"; };
 		43530AC61E4A100C0047D3A1 /* HearthAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HearthAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		43530AC71E4A100C0047D3A1 /* HearthAssetsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HearthAssetsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		43847D931E8D99D40060C2D2 /* RegexUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RegexUtil.framework; path = Carthage/Build/Mac/RegexUtil.framework; sourceTree = "<group>"; };
 		439CD6091E68B35700BE6C9F /* UnityPack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UnityPack.framework; path = Carthage/Build/Mac/UnityPack.framework; sourceTree = "<group>"; };
 		43EADD411E49D83C001117C7 /* HearthAssets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HearthAssets.h; sourceTree = "<group>"; };
 		43EADD421E49D83C001117C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				439CD60B1E68B3BA00BE6C9F /* UnityPack.framework in Frameworks */,
+				43847D941E8D99D40060C2D2 /* RegexUtil.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +407,7 @@
 		439CD6081E68B35700BE6C9F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				43847D931E8D99D40060C2D2 /* RegexUtil.framework */,
 				43530AC61E4A100C0047D3A1 /* HearthAssets.framework */,
 				439CD6091E68B35700BE6C9F /* UnityPack.framework */,
 			);
