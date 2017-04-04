@@ -247,7 +247,7 @@ public class HearthAssets {
 
         print("Assets prepared, now loading")
         fetchAssets(id: id, loadAssets: loadList) { [weak self] in
-            print("Assets loaded for: \(card["name"])")
+            print("Assets loaded for: \(String(describing: card["name"]))")
 
             do {
                 let image = try self?.draw(card: card)
@@ -514,7 +514,7 @@ public class HearthAssets {
 
     private func drawBodyText(s: CGFloat, type: String, text: String) throws {
 
-        let pluralRegex = "(\\d+) \\|4\\((\\w+),(\\w+)\\)"
+        let pluralRegex = RegexPattern(stringLiteral: "(\\d+) \\|4\\((\\w+),(\\w+)\\)")
         let bodyText = text.replace(pluralRegex) { (string, matches) in
             guard matches.count > 4 else {
                 return string
