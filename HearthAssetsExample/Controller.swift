@@ -72,6 +72,7 @@ class Controller: NSViewController {
         }
 
         cards.removeAll()
+        var cardChoices = [NSMenuItem]()
         for jsonCard: [String: Any] in jsonCards {
             guard let cardId = jsonCard["id"] as? String else {
                 continue
@@ -99,6 +100,11 @@ class Controller: NSViewController {
                     action: nil,
                     keyEquivalent: "")
             item.representedObject = cardId
+            cardChoices.append(item)
+        }
+        
+        cardChoices.sort(by: { return $0.title < $1.title })
+        for item in cardChoices {
             cardChooser.menu?.addItem(item)
         }
 
