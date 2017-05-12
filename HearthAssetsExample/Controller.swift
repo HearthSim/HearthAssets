@@ -111,7 +111,7 @@ class Controller: NSViewController {
             return
         }
 
-        print("Change card : \(item.title) (\(item.representedObject))")
+        print("Change card : \(item.title) (\(String(describing: item.representedObject)))")
 
         guard let cardId = item.representedObject as? String,
               let card = cards[cardId] else {

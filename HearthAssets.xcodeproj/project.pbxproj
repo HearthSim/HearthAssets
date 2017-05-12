@@ -121,6 +121,7 @@
 		64C11FC62025F23891EAB46D /* bg-og.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C11626C8F5EC0AFF85ADAA /* bg-og.png */; };
 		64C11FEC3EE2E3BC06657321 /* wShaman.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C11C313672D724737B6356 /* wShaman.png */; };
 		64C11FEFC772AC0A2830EA26 /* spell-bg-gvg.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C113759A476C26A71E3926 /* spell-bg-gvg.png */; };
+		BC14E59A1EC63D8A008693DE /* RegexUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D931E8D99D40060C2D2 /* RegexUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +141,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				BC14E59A1EC63D8A008693DE /* RegexUtil.framework in Embed Frameworks */,
 				439CD60D1E68B4EC00BE6C9F /* HearthAssets.framework in Embed Frameworks */,
 				439CD60F1E68B4EC00BE6C9F /* UnityPack.framework in Embed Frameworks */,
 			);
