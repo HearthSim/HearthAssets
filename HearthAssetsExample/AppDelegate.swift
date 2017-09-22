@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var controller: Controller?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        controller = Controller(nibName: "Window", bundle: nil)
+        controller = Controller(nibName: NSNib.Name(rawValue: "Window"), bundle: nil)
         if let mainController = controller {
             self.window.contentView?.addSubview(mainController.view)
             mainController.view.frame = window.contentView?.bounds ?? NSRect.zero

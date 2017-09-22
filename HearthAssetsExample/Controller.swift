@@ -124,7 +124,7 @@ class Controller: NSViewController {
             return
         }
 
-        assetGenerator?.debug = debug.state == NSOnState
+        assetGenerator?.debug = debug.state == .on
         assetGenerator?.locale = locale
 
         assetGenerator?.generate(card: card) { [weak self] (image, error) in

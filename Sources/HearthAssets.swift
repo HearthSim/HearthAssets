@@ -87,7 +87,7 @@ public class HearthAssets {
                            sx: CGFloat(offsetFloatX), sy: CGFloat(offsetFloatY),
                            ss: CGFloat(scaleFloat))
 
-        NSGraphicsContext.current()?.imageInterpolation = .high
+        NSGraphicsContext.current?.imageInterpolation = .high
 
         let frame = NSRect(x: 0, y: 0,
                            width: image.size.width,
@@ -178,11 +178,11 @@ public class HearthAssets {
 
         let s = imageSize / 764.0
 
-        self.cardBack = type.sub(start: 0, end: 1).lowercased()
-                + playerClass.sub(start: 0, end: 1)
-                + playerClass.sub(start: 1, end: playerClass.characters.count)
-                .lowercased()
-        var loadList: [String] = [cardBack!, "gem"]
+        let cardBack: String = type.sub(start: 0, end: 1).lowercased()
+            + playerClass.sub(start: 0, end: 1)
+            + playerClass.sub(start: 1, end: playerClass.characters.count).lowercased()
+        self.cardBack = cardBack
+        var loadList: [String] = [self.cardBack!, "gem"]
 
         if type == "MINION" {
             loadList.append("attack")
@@ -275,7 +275,7 @@ public class HearthAssets {
         let image = NSImage(size: imgRect.size)
         image.lockFocus()
 
-        guard let ctx = NSGraphicsContext.current() else {
+        guard let ctx = NSGraphicsContext.current else {
             throw AssetError.invalidGraphicsContext
         }
 
@@ -578,13 +578,11 @@ public class HearthAssets {
         guard let html = htmlText.data(using: .utf8) else {
             return
         }
-        let text = try NSAttributedString(data: html,
-                options: [
-                        NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                        NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue
-                ],
-                documentAttributes: nil)
-
+        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
+            .documentType: NSAttributedString.DocumentType.html,
+            .characterEncoding: String.Encoding.utf8.rawValue
+        ]
+        let text = try NSAttributedString(data: html, options: options, documentAttributes: nil)
         text.draw(in: bufferText)
     }
 
@@ -601,11 +599,11 @@ public class HearthAssets {
         paragraph.alignment = .center
         let text = NSAttributedString(string: NSLocalizedString(race.lowercased(), comment: ""),
                 attributes: [
-                        NSFontAttributeName: font,
-                        NSForegroundColorAttributeName: NSColor.white,
-                        NSStrokeWidthAttributeName: -4.0,
-                        NSStrokeColorAttributeName: NSColor.black,
-                        NSParagraphStyleAttributeName: paragraph
+                        NSAttributedStringKey.font: font,
+                        NSAttributedStringKey.foregroundColor: NSColor.white,
+                        NSAttributedStringKey.strokeWidth: -4.0,
+                        NSAttributedStringKey.strokeColor: NSColor.black,
+                        NSAttributedStringKey.paragraphStyle: paragraph
                 ])
         let textWidth = text.size().width
         text.draw(at: NSPoint(x: (394 - (textWidth / 2)) * s, y: 70))
@@ -651,15 +649,15 @@ public class HearthAssets {
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
 
-        var attrs: [String: Any] = [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: NSColor.white,
-                NSStrokeWidthAttributeName: -4.0,
-                NSStrokeColorAttributeName: NSColor.black,
-                NSParagraphStyleAttributeName: paragraph
+        var attrs: [NSAttributedStringKey: Any] = [
+                .font: font,
+                .foregroundColor: NSColor.white,
+                .strokeWidth: -4.0,
+                .strokeColor: NSColor.black,
+                .paragraphStyle: paragraph
         ]
         if debug {
-            attrs[NSBackgroundColorAttributeName] = NSColor.red.withAlphaComponent(0.5)
+            attrs[.backgroundColor] = NSColor.red.withAlphaComponent(0.5)
         }
         let text = NSAttributedString(string: name, attributes: attrs)
 
@@ -732,15 +730,15 @@ public class HearthAssets {
 
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
-        var attributes: [String: Any] = [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: NSColor.white,
-                NSStrokeWidthAttributeName: -2.0,
-                NSStrokeColorAttributeName: NSColor.black,
-                NSParagraphStyleAttributeName: paragraph
+        var attributes: [NSAttributedStringKey: Any] = [
+                .font: font,
+                .foregroundColor: NSColor.white,
+                .strokeWidth: -2.0,
+                .strokeColor: NSColor.black,
+                .paragraphStyle: paragraph
         ]
         if debug {
-            attributes[NSBackgroundColorAttributeName] = NSColor.red.withAlphaComponent(0.5)
+            attributes[.backgroundColor] = NSColor.red.withAlphaComponent(0.5)
         }
         let text = NSAttributedString(string: "\(number)", attributes: attributes)
         var x = x
@@ -782,7 +780,7 @@ public class HearthAssets {
 
                 assets[key] = img
             } else {
-                if let image = NSImage(named: key) {
+                if let image = NSImage(named: NSImage.Name(rawValue: key)) {
                     assets[key] = image
                 } else {
                     print("can't load image : \(key).png")
@@ -805,7 +803,7 @@ private extension String {
             return ""
         }
         let range = self.characters.index(self.startIndex, offsetBy: start) ..< self.characters.index(self.startIndex, offsetBy: end)
-        return self.substring(with: range)
+        return String(self[range])
     }
 
     func sub(from: Int) -> String {
@@ -813,6 +811,6 @@ private extension String {
             print("start index \(from) out of bounds")
             return ""
         }
-        return self.substring(from: self.characters.index(self.startIndex, offsetBy: from))
+        return String(self[self.characters.index(self.startIndex, offsetBy: from)])
     }
 }
