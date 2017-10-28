@@ -7,11 +7,12 @@ Pod::Spec.new do |s|
   s.authors          = { 'Benjamin Michotte' => 'bmichotte@gmail.com', 'Istvan Fehervari' => 'gooksl@gmail.com' }
   s.source           = { :git => 'https://github.com/HearthSim/HearthAssets.git' }
 
-  s.osx.deployment_target     = '10.10'
-
+  s.platform = :osx
+  s.deployment_target = '10.10'
   s.framework = 'Foundation'
-  s.dependency 'UnityPack-Swift', :git => 'https://github.com/HearthSim/UnityPack-Swift.git', :branch => 'master'
-  s.dependency 'RegexUtil', :git => 'https://github.com/bmichotte/RegexUtil.git'
+
+  s.dependency 'UnityPack-Swift'
+  s.dependency 'RegexUtil'
 
   s.source_files = 'Sources/**/*.swift'
   s.requires_arc = true
